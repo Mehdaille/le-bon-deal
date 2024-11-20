@@ -1,0 +1,92 @@
+/*
+Theme Name: Theme enfant XMAG
+Template: xmag
+Author: Mehdi
+Description: Ceci est le theme enfant de XMAG
+*/
+
+.test {
+    color: red;
+}
+
+.flex-container {
+    display: flex;
+    align-items: center; /* Aligne verticalement le texte et l'image */
+    gap: 20px; /* Espacement entre l'image et le texte */
+}
+
+.site-title {
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 3em;
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 0;
+}
+
+#voir {
+    font-size: 16px;
+    padding: 10px 20px;
+    border: 2px solid black;
+    border-radius: 5px;
+    color: black;
+    background-color: #f2892e;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#voir:hover {
+    background-color: #f97b05;
+    transform: scale(1.05);
+}
+
+.entry-meta .category a,
+.featured-image .category a {
+    background-color: #f2892e;
+    color: black;
+    font-size: 11px;
+    margin: 2px;
+    border: 2px solid black;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    border-radius: 5px;
+}
+
+#cont {
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 30px;
+}
+
+.stop-float {
+    clear: left;
+}
+
+.entry-thumbnail img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 5px;
+}
+
+#cont {
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 40px;
+}
+
+hr {
+    height: 2px;
+    border: 0;
+    background-color: #eee;
+    margin: 30px auto;
+}
+
+#cont2 {
+    display: flex;
+    align-items: center;
+}
+
+#cont3 {
+    margin: 3vw;
+}
