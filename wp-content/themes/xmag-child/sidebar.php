@@ -55,15 +55,18 @@
 
                     // Construire une requête pour récupérer les articles dans ces catégories
                     $args = [
-                        'category__in'   => $category_ids, // Articles dans les catégories associées
-                        'post__not_in'   => [get_the_ID()], // Exclure l'article actuel
+                        'category__in' => $category_ids, // Articles dans les catégories associées
+                        'post__not_in' => [get_the_ID()], // Exclure l'article actuel
 //                        'posts_per_page' => 5,             // Limite d'articles
                     ];
 
                     $query = new WP_Query($args);
 
-                    if ($query->have_posts()) {
-                        echo '<h2>Les deals associées :</h2>';
+                    if ($query->have_posts()) { ?>
+                        <div class="entry-meta">
+                            <a id="voir">Les deals associées :</a>
+                        </div>
+                        <?php
                         while ($query->have_posts()) {
                             $query->the_post();
                             ?>
@@ -84,14 +87,23 @@
             } else {
                 // Requête personnalisée pour les articles avec un tag spécifique
                 $args = [
-                    'tag'            => 'a-la-une', // Articles avec le tag "a-la-une"
+                    'tag' => 'a-la-une', // Articles avec le tag "a-la-une"
                     'posts_per_page' => 5,         // Limite d'articles
                 ];
 
                 $query = new WP_Query($args);
 
                 if ($query->have_posts()) {
-                    echo '<h2>Les deals à la une :</h2>';
+
+                    // bouton qui redirige vers la liste des articles avec le tag "A la une"
+                    $tag_id = get_term_by('slug', 'a-la-une', 'post_tag')->term_id;
+                    $tag_link = get_tag_link($tag_id);
+                    if (!is_wp_error($tag_link)) {
+                        echo '<a id="voir" href="' . esc_url($tag_link) . '">Les deals à la une</a>';
+                    } else {
+                        echo 'Tag introuvable.';
+                    } // --bouton A la une
+
                     while ($query->have_posts()) {
                         $query->the_post();
                         ?>
@@ -111,8 +123,8 @@
         </aside>
         </aside>
 
-<!--        <aside id="meta" class="widget widget_meta">-->
-<!--            --><?php
+        <!--        <aside id="meta" class="widget widget_meta">-->
+        <!--            --><?php
 //            $post_template = xmag_archive_post_template();
 //            if (is_single()) {
 //                $args['category_name'] = the_category();
@@ -124,18 +136,18 @@
 //                while ($query->have_posts()) {
 //                    $query->the_post();
 //                    ?>
-<!--                    <h2>--><?php //the_title(); ?><!--</h2>-->
-<!--                    <div class="entry-meta">-->
-<!--                        <a id="voir" href="--><?php //the_permalink(); ?><!--">Voir</a>-->
-<!--                    </div>-->
-<!--                    <hr>-->
-<!--                    --><?php
+        <!--                    <h2>--><?php //the_title(); ?><!--</h2>-->
+        <!--                    <div class="entry-meta">-->
+        <!--                        <a id="voir" href="--><?php //the_permalink(); ?><!--">Voir</a>-->
+        <!--                    </div>-->
+        <!--                    <hr>-->
+        <!--                    --><?php
 //                }
 //                wp_reset_postdata();
 //            } else {
 //                get_template_part('template-parts/content', 'none');
 //            }
 //            ?>
-<!--        </aside>-->
+        <!--        </aside>-->
     <?php endif; // Sidebar widget area ?>
 </div><!-- #secondary .widget-area -->
