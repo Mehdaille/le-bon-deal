@@ -30,9 +30,9 @@
 			</div>
             <div class="entry-meta">
                 <p class="category"><?php the_tags(' '); ?></p>
-            </div>
-            <?php xmag_time_link(); ?>
-            </div>
+<!--            </div>-->
+<!--            --><?php //xmag_time_link(); ?>
+<!--            </div>-->
             <div class="stop-float"></div>
 		</header><!-- .entry-header -->
 

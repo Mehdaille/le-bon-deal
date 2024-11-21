@@ -43,34 +43,55 @@
         <!--				--><?php //wp_meta(); ?>
         <!--			</ul>-->
         <!--		</aside>-->
+
         <aside id="meta" class="widget widget_meta">
             <?php
-            // Vérifiez si vous êtes sur un article unique
             if (is_single()) {
                 // Récupérer les catégories de l'article actuel
                 $categories = get_the_category();
                 if (!empty($categories)) {
-                    echo '<h2>Catégories de cet article :</h2>';
-                    echo '<ul>';
-                    foreach ($categories as $category) {
-                        // Remplir les catégories dans une liste
-                        echo '<li><a href="' . esc_url(get_category_link($category->term_id)) . '">' . esc_html($category->name) . '</a></li>';
+                    // Extraire les IDs des catégories
+                    $category_ids = wp_list_pluck($categories, 'term_id');
+
+                    // Construire une requête pour récupérer les articles dans ces catégories
+                    $args = [
+                        'category__in'   => $category_ids, // Articles dans les catégories associées
+                        'post__not_in'   => [get_the_ID()], // Exclure l'article actuel
+//                        'posts_per_page' => 5,             // Limite d'articles
+                    ];
+
+                    $query = new WP_Query($args);
+
+                    if ($query->have_posts()) {
+                        echo '<h2>Les deals associées :</h2>';
+                        while ($query->have_posts()) {
+                            $query->the_post();
+                            ?>
+                            <h3><?php the_title(); ?></h3>
+                            <div class="entry-meta">
+                                <a id="voir" href="<?php the_permalink(); ?>">Voir</a>
+                            </div>
+                            <hr>
+                            <?php
+                        }
+                        wp_reset_postdata();
+                    } else {
+                        echo '<p>Aucun deals trouvé dans les mêmes catégories.</p>';
                     }
-                    echo '</ul>';
                 } else {
-                    echo '<p>Aucune catégorie trouvée pour cet article.</p>';
+                    echo "<p>Cet article n'a pas de catégories associées.</p>";
                 }
             } else {
-                // Si vous êtes sur une autre page, exécutez une requête personnalisée
+                // Requête personnalisée pour les articles avec un tag spécifique
                 $args = [
-                    'tag' => 'a-la-une', // Articles avec le tag "a-la-une"
-                    'posts_per_page' => 5, // Limite d'articles
+                    'tag'            => 'a-la-une', // Articles avec le tag "a-la-une"
+                    'posts_per_page' => 5,         // Limite d'articles
                 ];
 
                 $query = new WP_Query($args);
 
                 if ($query->have_posts()) {
-                    echo '<h2>Articles à la une :</h2>';
+                    echo '<h2>Les deals à la une :</h2>';
                     while ($query->have_posts()) {
                         $query->the_post();
                         ?>
@@ -87,6 +108,7 @@
                 }
             }
             ?>
+        </aside>
         </aside>
 
 <!--        <aside id="meta" class="widget widget_meta">-->
